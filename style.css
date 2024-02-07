@@ -19,6 +19,7 @@ h1{
 font-size: 210px;
 font-weight: 400;
 }
+
 .des1{
     font-size: 28px;
     font-weight: 400;
@@ -29,7 +30,7 @@ font-weight: 400;
 
 .des2{
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 300;
     padding: 20px;
     max-width: 700px;
     margin-left: 50%;
@@ -41,9 +42,37 @@ h2{
     padding: 20px;
 }
 
+@media screen and (max-width: 800px) {
+    nav{
+        font-size: 15px;
+        padding: 15px;}
+
+    .line {border-bottom: 1px solid #ffffff; padding: 1.5px;}
+
+    h1{font-size: 73px;}
+    .des1{
+        font-size: 18px;
+        padding: 10px;
+        max-width: 300px;
+        margin-left: 40%;
+    }
+    .des2{
+        font-size: 12px;
+        padding: 10px;
+        max-width: 300px;
+        margin-left: 40%;
+        font-weight: 300;
+    }
+    h2{
+        font-size: 30px;
+        font-weight: 400;
+        padding: 15px;
+    }
+  }
+
 .gallery {
     background-color: 171717;
-    --s: 350px;
+    --s: 400px;
     --g: 2px;
   
     display: grid;
@@ -51,7 +80,7 @@ h2{
     width: 100%;
     padding: var(--g);
     box-sizing: border-box;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   }
   
   .gallery > img {
