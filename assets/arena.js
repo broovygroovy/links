@@ -4,7 +4,6 @@ let markdownIt = document.createElement('script')
 markdownIt.src = 'https://cdn.jsdelivr.net/npm/markdown-it@14.0.0/dist/markdown-it.min.js'
 document.head.appendChild(markdownIt)
 
-
 let channelSlug = 'black-white-ksc5klaxves' 
 
 let placeChannelInfo = (data) => {
@@ -24,7 +23,23 @@ let placeChannelInfo = (data) => {
 let renderBlock = (block) => {
 	let channelBlocks = document.getElementById('channel-blocks')
 
+	// Links!
 	if (block.class == 'Link') {
+		let linkItem =
+			`
+			<li>
+				<div>
+				<a href="${ block.source.url }">
+					<picture>
+						<source media="(max-width: 428px)" srcset="${ block.image.thumb.url }">
+						<source media="(max-width: 640px)" srcset="${ block.image.large.url }">
+						<img src="${ block.image.original.url }">
+					</picture>
+				</a>
+				</div>
+			</li>
+			`
+		channelBlocks.insertAdjacentHTML('beforeend', linkItem)
 	}
 
 	// Images!
@@ -33,20 +48,19 @@ let renderBlock = (block) => {
 		let imageItem = 
 		`
 			<li>
-				
-						<img src="${ block.image.original.url }">
+			<div>	
+				<figure>
+					<img src="${ block.image.original.url }">
+				</figure>
+				</div>
 			</li>
 		`
 		channelBlocks.insertAdjacentHTML('beforeend', imageItem);
 	}
 
-	// Text!
-	else if (block.class == 'Text') {
-	}
-
 	// Uploaded (not linked) media…
 	else if (block.class == 'Attachment') {
-		let attachment = block.attachment.content_type // Save us some repetition
+		let attachment = block.attachment.content_type
 
 		// Uploaded videos!
 		if (attachment.includes('video')) {
@@ -62,7 +76,19 @@ let renderBlock = (block) => {
 
 		// Uploaded PDFs!
 		else if (attachment.includes('pdf')) {
-		}
+			
+			 		let pdfItem =
+			 			`
+			 				<li>
+			 					<a href="${block.attachment.url}">
+			 						<figure>
+			 							<img src="${block.image.large.url}">
+			 						</figure>
+			 					</a>
+			 				</li>
+			 			`
+			 		channelBlocks.insertAdjacentHTML('beforeend', pdfItem);
+			 	}
 
 		// Uploaded audio!
 		else if (attachment.includes('audio')) {
@@ -80,21 +106,27 @@ let renderBlock = (block) => {
 	// Linked media…
 	else if (block.class == 'Media') {
 		let embed = block.embed.type
-
+		
 		// Linked video!
 		if (embed.includes('video')) {
+	
 			let linkedVideoItem =
 				`
 				<li>
-					<p><em>Linked Video</em></p>
 					${ block.embed.html }
 				</li>
 				`
-			channelBlocks.insertAdjacentHTML('beforeend', linkedVideoItem)
+			channelBlocks.insertAdjacentHTML('beforeend',linkedVideoItem)
 		}
 
 		// Linked audio!
 		else if (embed.includes('rich')) {
+			`
+			<li>
+				<p><em>Audio</em></p>
+				${block.embed.html}
+			</li>
+			`
 		}
 	}
 }
@@ -118,4 +150,8 @@ fetch(`https://api.are.na/v2/channels/${channelSlug}?per=100`, { cache: 'no-stor
 		data.contents.reverse().forEach((block) => {
 			renderBlock(block)
 		})
+
+		let channelUsers = document.getElementById('channel-users') 
+		data.collaborators.forEach((collaborator) => renderUser(collaborator, channelUsers))
+		renderUser(data.user, channelUsers)
 	})

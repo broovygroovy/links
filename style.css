@@ -71,9 +71,9 @@ h2{
   }
 
 .gallery {
-    background-color: 171717;
-    --s: 400px;
-    --g: 2px;
+    background-color: white;
+    --s: 200px;
+    --g: 200px;
   
     display: grid;
     gap: var(--g);
@@ -82,11 +82,14 @@ h2{
     box-sizing: border-box;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   }
-  
-  .gallery > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
+
+footer{
+    background-color: 171717;
+    color: white;
+    font-family: "Kantumruy Pro";
+}
+
+ 
+
+
 
